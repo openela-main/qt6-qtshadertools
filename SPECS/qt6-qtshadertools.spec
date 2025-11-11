@@ -10,8 +10,8 @@
 
 Summary: Qt6 - Qt Shader Tools module builds on the SPIR-V Open Source Ecosystem
 Name:    qt6-%{qt_module}
-Version: 6.8.1
-Release: 4%{?dist}
+Version: 6.9.1
+Release: 1%{?dist}
 
 License: LGPL-3.0-only OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 Url:     http://www.qt.io
@@ -118,7 +118,7 @@ popd
 
 %files
 %license LICENSES/*
-%{_qt6_archdatadir}/sbom/%{qt_module}-%{qt_version}.spdx
+%{_qt6_archdatadir}/sbom/qtshadertools-%{qt_version}.spdx
 %{_bindir}/qsb-qt6
 %{_qt6_bindir}/qsb
 %{_qt6_libdir}/libQt6ShaderTools.so.6*
@@ -131,9 +131,11 @@ popd
 %{_qt6_libdir}/libQt6ShaderTools.so
 %{_qt6_libdir}/cmake/Qt6BuildInternals/StandaloneTests/QtShaderToolsTestsConfig.cmake
 %dir %{_qt6_libdir}/cmake/Qt6ShaderTools/
+%dir %{_qt6_libdir}/cmake/Qt6ShaderToolsPrivate/
 %{_qt6_libdir}/cmake/Qt6ShaderTools/*.cmake
 %dir %{_qt6_libdir}/cmake/Qt6ShaderToolsTools/
 %{_qt6_libdir}/cmake/Qt6ShaderToolsTools/*.cmake
+%{_qt6_libdir}/cmake/Qt6ShaderToolsPrivate/*.cmake
 %{_qt6_libdir}/qt6/metatypes/qt6*_metatypes.json
 %{_qt6_libdir}/pkgconfig/Qt6ShaderTools.pc
 
@@ -144,6 +146,10 @@ popd
 %endif
 
 %changelog
+* Wed May 14 2025 Jan Grulich <jgrulich@redhat.com> - 6.9.1-1
+- 6.9.1
+  Resolves: RHEL-78550
+
 * Fri Jan 24 2025 Jan Grulich <jgrulich@redhat.com> - 6.8.1-4
 - Unbundle glslang
   Resolves: RHEL-76115
