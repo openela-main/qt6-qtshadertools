@@ -11,7 +11,7 @@
 Summary: Qt6 - Qt Shader Tools module builds on the SPIR-V Open Source Ecosystem
 Name:    qt6-%{qt_module}
 Version: 6.10.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 License: LGPL-3.0-only OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 Url:     http://www.qt.io
@@ -66,9 +66,12 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 %prep
 %autosetup -n %{qt_module}-everywhere-src-%{qt_version}%{?unstable:-%{prerelease}} -p1
 
-# Make sure 3rdparty/glslang isn't used
-pushd src/3rdparty
-rm -rf glslang
+# Remove bundled glslang, keeping only SPVRemapper (removed from glslang 16.x)
+# and doc.h (internal header not installed by glslang-devel)
+rm -rf src/3rdparty/glslang/glslang
+pushd src/3rdparty/glslang/SPIRV
+find . -not -name SPVRemapper.cpp -not -name SPVRemapper.h -not -name doc.h \
+       -not -path . -delete
 popd
 
 %build
@@ -146,6 +149,10 @@ popd
 %endif
 
 %changelog
+* Mon May 04 2026 Jan Grulich <jgrulich@redhat.com> - 6.10.1-2
+- Fix build against system glslang
+  Resolves: RHEL-172161
+
 * Mon Nov 24 2025 Jan Grulich <jgrulich@redhat.com> - 6.10.1-1
 - 6.10.1
   Resolves: RHEL-109197
